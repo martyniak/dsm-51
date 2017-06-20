@@ -29,7 +29,7 @@ initialization:
 t0_int:
             orl     tl0,#t0_data mod 256    ; set up t0 counter
             mov	    th0,#t0_data / 256
-            setb	t0_flag                 ; set up flag (every 1ms)
+            setb    t0_flag                 ; set up flag (every 1ms)
             reti
 
 ;         settings
@@ -106,11 +106,11 @@ t0_1000:
 ;               every 1s led is switched on
 ;       ---------------------------------------------------------------------------
 test_off:
-            setb    p1.7    ; led on
-            setb    p1.5    ; buzzer on
+            setb    p1.7    ; led off
+            setb    p1.5    ; buzzer off
             ret
 test_on:
-            clr     p1.7    ; led off
-            clr     p1.5    ; buzzer off
+            clr     p1.7    ; led on
+            clr     p1.5    ; buzzer on
             ret
 end
