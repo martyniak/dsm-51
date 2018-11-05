@@ -5,8 +5,8 @@ install:
   - sudo dpkg -i --force-architecture asem51_1.3-2_i386.deb
 
 script:
-  - asem $TRAVIS_BUILD_DIR/dsm-51/test.asm
-  - asem $TRAVIS_BUILD_DIR/dsm-51/clock.asm
+  - asem $TRAVIS_BUILD_DIR/test.asm
+  - asem $TRAVIS_BUILD_DIR/clock.asm
 
 notifications:
   slack:
