@@ -6,13 +6,13 @@
 ; p1.2	-	(out)	isolated output O1
 ; p1.3	-	(out)	isolated output O2
 ; p1.4	-	(out)	watchdog
-; p1.5	-	(out)	buzzer	
+; p1.5	-	(out)	buzzer
 ; p1.6	-	(out)	7-segment display
 ; p1.7	-	(out)	TEST led
 ; p3.0	-	(in)	rxd		- receive data for serial port (COM1 input)
-; p3.1	-	(out)	txd 	- transmit data for serial port (COM1 output)
-; p3.2	-	(in)	int0 	- external interrupt 0 (COM2 input)
-; p3.3	-	(in)	int1 	- external interrupt 1
+; p3.1	-	(out)	txd     - transmit data for serial port (COM1 output)
+; p3.2	-	(in)	int0    - external interrupt 0 (COM2 input)
+; p3.3	-	(in)	int1    - external interrupt 1
 ; p3.4	-	(in)	t0 		- timer 0 external input (isolated input I1)
 ; p3.5	-	(in)	t1 		- timer 1 external input (keyboard)
 ; p3.6	-	(out)	wr		- external data memory write strobe
@@ -26,63 +26,66 @@ t0_data         equ 65535-921               ; interuption every 1ms
                                             ; 1000 uSec / 1.0850694 uSec = 921.6
                                             ; 1000 uSec = 1 mSec = 921.6 –> ~922
                                             ; 65535-921 = 64614 = 0xFC66
-csds			equ	0ff30h			        ; selection indicator buffer
-csdb			equ	0ff38h			        ; data buffer
-    
-t_4ms_buf       equ	16                      ; buffer for counting down 4ms
-t_100ms_buf     equ	17                      ; buffer for counting down 100ms
-t_1000ms_buf    equ	18                      ; buffer for counting down 1s
-    
-offset_sec  	equ	19				        ; numbers array offset for seconds
-offset_min	    equ	20				        ; numbers array offset for minutes
-offset_hur	    equ	21				        ; numbers array offset for hours
-    
-displays_buf	equ	25			            ; RAM memory allocation for displays buffer
-offset_dis		equ	31				        ; display array offset
-    
-heap            equ	100                     ; heap start address
-    
-; ------------------------------------- 
-; RAM bit map (32)  
-; ------------------------------------- 
-t0_flag         bit	02h                     ; flag - set to 1 by t0 counter interuption
-t_4ms_flag      bit	03h                     ; flag - set to 1 when t_4ms_buf eq 0
-t_100ms_flag    bit	04h                     ; flag - set to 1 when t_100ms_buf eq 0
-t_1000ms_flag   bit	05h                     ; flag - set to 1 when t_1000ms_buf eq 0
+csds            equ 0ff30h                  ; selection indicator buffer
+csdb            equ 0ff38h                  ; data buffer
+
+t_4ms_buf       equ 16                      ; buffer for counting down 4ms
+t_100ms_buf     equ 17                      ; buffer for counting down 100ms
+t_1000ms_buf    equ 18                      ; buffer for counting down 1s
+
+offset_sec      equ 19                      ; numbers array offset for seconds
+offset_min      equ 20                      ; numbers array offset for minutes
+offset_hur      equ 21                      ; numbers array offset for hours
+
+displays_buf    equ 25                      ; RAM memory allocation for displays buffer
+offset_dis      equ 31                      ; display array offset
+
+heap            equ 100                     ; heap start address
+
+; -------------------------------------
+; RAM bit map (32)
+; -------------------------------------
+t0_flag         bit 02h                     ; flag - set to 1 by t0 counter interuption
+t_4ms_flag      bit 03h                     ; flag - set to 1 when t_4ms_buf eq 0
+t_100ms_flag    bit 04h                     ; flag - set to 1 when t_100ms_buf eq 0
+t_1000ms_flag   bit 05h                     ; flag - set to 1 when t_1000ms_buf eq 0
 
 ; ==========================================================================
 ; Start
 ; --------------------------------------------------------------------------
-    org	00h
+    org 00h
 initialization:
     ljmp    start                           ; jump to start
-; ------------------------------------- 
-; t0 interruption   
-; ------------------------------------- 
-    org	0bh 
-t0_int: 
+
+; -------------------------------------
+; t0 interruption
+; -------------------------------------
+    org 0bh
+t0_int:
     orl     tl0, #t0_data mod 256           ; set up t0 counter
-    mov	    th0, #t0_data / 256 
+    mov     th0, #t0_data / 256
     setb    t0_flag                         ; set up flag (every 1ms)
-    reti    
-; ------------------------------------- 
-; settings  
-; ------------------------------------- 
-    org	0100h   
-start:  
-    mov	    a, #255 
-    mov	    p1, a                           ; set up P1 port
-    mov	    sp, #heap                       ; set up heap start address
-; ------------------------------------- 
-; timer 
-; ------------------------------------- 
+    reti
+
+; -------------------------------------
+; settings
+; -------------------------------------
+    org 0100h   
+start:
+    mov     a, #255 
+    mov     p1, a                           ; set up P1 port
+    mov     sp, #heap                       ; set up heap start address
+
+; -------------------------------------
+; timer
+; -------------------------------------
     mov     tmod, #00100001b                ; t0 in 1st mode ; t1 in 2nd mode
     mov     tcon, #00000000b                ; no interuptions from INT_0 & INT_1
     mov     tl0, #t0_data mod 256           ; set up t0 counter
-    mov     th0, #t0_data / 256 
-; ------------------------------------- 
-; flags and buffers 
-; ------------------------------------- 
+    mov     th0, #t0_data / 256
+; -------------------------------------
+; flags and buffers
+; -------------------------------------
     clr     t0_flag                         ; set t0_flag to 0
 
     clr     t_4ms_flag                      ; set t_4ms_flag to 0
@@ -94,11 +97,11 @@ start:
     clr     t_1000ms_flag                   ; set t_1000ms_flag to 0
     mov     t_1000ms_buf, #10               ; set t_1000ms_buf to 10
 
-    mov	    offset_dis, #0                  ; offset_dis to 0
+    mov     offset_dis, #0                  ; offset_dis to 0
 
-; ------------------------------------- 
-; set time to 23:59:55  
-; ------------------------------------- 
+; -------------------------------------
+; set time to 23:59:55
+; -------------------------------------
     mov	displays_buf, #01101101b            ; dispaly 5
     mov	displays_buf+1, #01101101b		    ; dispaly 5
     mov	offset_sec, #01010101b	            ; 0101 - 5, 0101 - 5
@@ -185,7 +188,7 @@ clock:
     add	    a, #00000001b			        ; increment accumulator
     da	    a					            ; decimal adjust
     mov	    offset_sec, a		            ; copy accumulator to offset_sec
-    mov	    a, offset_sec		            ; copy offset_sec to accumulator
+    mov     a, offset_sec		            ; copy offset_sec to accumulator
     cjne    a, #01100000b, display_seconds  ; if a is not equal 01100000b (60) jump to display_seconds
     mov	    a, #00000000b                   ; assing 0 to a
     mov     offset_sec, a			        ; assing 0 to offset_sec
