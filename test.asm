@@ -118,7 +118,7 @@ t0_handler:
 t0_100:
     setb    t_100ms_flag                ; set t_100ms_flag to 1
     mov     t_100ms_buf, #100           ; restore t_100ms_buf buffer to 100
-			
+            
     dec     t_1000ms_buf                ; decrement t_1000ms_buf
     mov     a, t_1000ms_buf             ; move t_1000ms_buf to accumulator
     jz      t0_1000                     ; jump to t0_1000 if accumulator is eq 0

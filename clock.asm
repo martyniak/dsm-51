@@ -231,7 +231,7 @@ display_seconds:
     lcall	get_right
     movc	a, @a+dptr			            ; assign accumulator value from numbers array of index accumulator+1
     mov	    displays_buf, a			        ; assign display_but value to accumulator
-			
+            
 
     mov	    dptr, #numbers	                ; set dptr as a pointer to 1st element of the array
     mov	    a, offset_sec
@@ -251,7 +251,7 @@ display_minutes:
     lcall	get_right
     movc	a, @a+dptr			            ; assign accumulator value from numbers array of index accumulator+1
     mov	    displays_buf+2, a		        ; assign display_but+2 value to accumulator
-			
+            
     mov	    dptr, #numbers	                ; set dptr as a pointer to 1st element of the array
     mov	    a, offset_min
     lcall   get_left
@@ -267,12 +267,12 @@ display_hours:
     mov	    displays_buf+1, #00111111b
     mov	    displays_buf+2, #00111111b
     mov	    displays_buf+3, #00111111b
-			
+            
     mov	    dptr, #numbers	                ; set dptr as a pointer to 1st element of the array
     lcall	get_right
     movc	a, @a+dptr			            ; assign accumulator value from numbers array of index accumulator+1
     mov	    displays_buf+4, a		        ; assign display_but+4 value to accumulator
-			
+            
     mov	    dptr, #numbers	                ; set dptr as a pointer to 1st element of the array
     mov	    a, offset_hur
     lcall   get_left
@@ -308,7 +308,7 @@ display_handler:
     mov	    offset_dis, #00000000b
 
 display_handler_end:
-	ret
+    ret
 
 ; ==========================================================================
 ; Bit shift
@@ -316,7 +316,7 @@ display_handler_end:
 ; 01000101 (45)	-> 	00000100 (4)
 ; -------------------------------------
 get_left:
-	clr	c			
+    clr	c			
     rrc	a
     clr	c
     rrc	a
@@ -324,7 +324,7 @@ get_left:
     rrc	a
     clr	c
     rrc	a
-	ret
+    ret
 
 ; -------------------------------------
 ; 01000101 (45)	-> 	00000101 (5)

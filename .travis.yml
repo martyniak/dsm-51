@@ -1,11 +1,12 @@
 dist: trusty
 
-before_install:
-  - sudo apt install as31
+install:
+  - wget http://plit.de/asem-51/asem51_1.3-2_i386.deb
+  - sudo dpkg -i --force-architecture asem51_1.3-2_i386.deb
 
 script:
-  - as31 test.asm
-  - as31 clock.asm
+  - asem /home/travis/dsm-51/test.asm
+  - asem /home/travis/dsm-51/clock.asm
 
 notifications:
   slack:
