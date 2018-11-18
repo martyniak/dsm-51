@@ -12,9 +12,12 @@ function test {
     fi 
 }
 
-t1 = $(test test.lst)
-t2 = $(test clock.lst)
+test test.lst
+t1 = $?
 
-if $t1 -ne 0 || $t2 -ne 0; then
+test clock.lst
+t2 = $?
+
+if [ $t1 -ne 0 ] || [ $t2 -ne 0 ]; then
     exit 1
 fi
