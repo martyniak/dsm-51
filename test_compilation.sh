@@ -13,10 +13,10 @@ function test {
 }
 
 test test.lst
-t1 = $?
+t1=$?
 
 test clock.lst
-t2 = $?
+t2=$?
 
 if [ "$t1" -ne "0" ] || [ "$t2" -ne "0" ]; then
     exit 1
