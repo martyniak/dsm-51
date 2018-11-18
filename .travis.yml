@@ -8,6 +8,10 @@ script:
   - asem $TRAVIS_BUILD_DIR/test.asm
   - asem $TRAVIS_BUILD_DIR/clock.asm
 
+after_script:
+  - chmod +x test_compilation.sh
+  - ./test_compilation.sh
+
 notifications:
   slack:
     secure: m8UdV/kTTwKEaETCgfp7vMS/q3LcTfwu0mbDEDaX5R7WphYZi3zxJBUSBR15ITqkRkR0HpOgXnRhl86jV6scvvvojzsEH9yPVURmNunay4x1NkKrFnm+ZhpGeGaS14TjmKevVLl9BVUXDi5qSSAEfSBItld4fZAWE07zxcOI5z0j0OVLm32DNPgeiNgFY9jIzLSdktj/++LMdHAuPRvnjYQMKit4glDM8oJoRJO193ncm6UWnZunt+gWhgck0mnaR6Lig7pBWt34d+lnfGXn8SrbsmmThIZf1M/HhTmJqQWvbUlDsl6/GeRORxLXhRYkYVgbA8qpgHjgu0taLyE4L94GjGxW+8n8gaXe92bRx/NbQtiyK/nzo3HjYfVtvzserA0q6yfInuFwkPz2LIxRXMiMSMUyg0ren5Z0x3mnCRVBREF1oembqbergmMw0lQRN+f69iviLTppeMfBG8lV/R+0ejau+rMv9j2qvCK7nkhz6oHDwk8Aum83sNpuEMcFyz4/UMtKFGzidRfknuO/uGivUUMxvWokblzvbDe/4RYDPJbCz93R7TEMC1bGYfYNZz4xwIt8N9CWRj7W9rsRIdm3PYm68yXNUUC/5NUfkFLkrqyXePcU90n/M1RFnlJyHE4Ua3SbgLWeEtFgQLfWvCE/tZcno1RegNTl6pfN4ic=
