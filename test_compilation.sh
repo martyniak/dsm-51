@@ -12,8 +12,8 @@ function test {
     fi 
 }
 
-t1 = test test.lst
-t2 = test clock.lst
+t1 = $(test test.lst)
+t2 = $(test clock.lst)
 
 if $t1 -ne 0 || $t2 -ne 0; then
     exit 1
